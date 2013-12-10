@@ -15,9 +15,12 @@ but it's not required.
     for name in plugins.__all__:
         plugin = getattr(plugins, name)
         try:
-            plugin.register()
+            # see if the plugin has a 'register' attribute
+            register_plugin = plugin.register
         except AttributeError:
             # raise an exception, log a message, 
             # or just ignore the problem
             pass
-            
+        else:
+            # try to call it, without catching any errors
+            register_plugin()
